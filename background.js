@@ -15,29 +15,53 @@
 //   }
 // });
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-  if (message.cmd === 'checkPassword') {
+// chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+//   if (message.cmd === 'checkPassword') {
+//     chrome.storage.local.get('password', function(data) {
+//       const storedPassword = data.password;
+//       const passwordExists = !!storedPassword;
+//       sendResponse({ passwordExists });
+//     });
+//     return true;
+//   }
+// });
+
+// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+//   if (request.type === 'storePassword') {
+//     chrome.storage.local.set({ password: request.password }, function() {
+//       console.log('Password saved:', request.password);
+//       sendResponse({ success: true });
+//     });
+//     return true;
+//   }
+// });
+
+// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+//   if (request.cmd === 'openOverlay') {
+//     chrome.tabs.sendMessage(sender.tab.id, { cmd: 'openOverlay' }, function(response) {
+//       sendResponse({ result: 'success' });
+//     });
+//   } else if (request.cmd === 'unlock') {
+//     chrome.tabs.sendMessage(sender.tab.id, { cmd: 'closeOverlay' });
+//     sendResponse({ result: 'Overlay closed' });
+//   }
+//   return true; // Indicates the response will be sent asynchronously
+// });
+
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.cmd === 'checkPassword') {
     chrome.storage.local.get('password', function(data) {
       const storedPassword = data.password;
       const passwordExists = !!storedPassword;
       sendResponse({ passwordExists });
     });
-    return true;
-  }
-});
-
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  if (request.type === 'storePassword') {
+  } else if (request.cmd === 'storePassword') {
     chrome.storage.local.set({ password: request.password }, function() {
       console.log('Password saved:', request.password);
       sendResponse({ success: true });
     });
-    return true;
-  }
-});
-
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  if (request.cmd === 'openOverlay') {
+  } else if (request.cmd === 'openOverlay') {
     chrome.tabs.sendMessage(sender.tab.id, { cmd: 'openOverlay' }, function(response) {
       sendResponse({ result: 'success' });
     });
@@ -45,6 +69,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     chrome.tabs.sendMessage(sender.tab.id, { cmd: 'closeOverlay' });
     sendResponse({ result: 'Overlay closed' });
   }
+
   return true; // Indicates the response will be sent asynchronously
 });
 

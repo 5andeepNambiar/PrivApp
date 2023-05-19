@@ -162,33 +162,37 @@ document.addEventListener('submit', function (event) {
   event.preventDefault();
 
   const password = document.getElementById('password2').value;
-//   const confirmPasswordInput = document.getElementById('confirm-password');
+  const confirmPasswordInput = document.getElementById('confirm-password');
 
-//   if (confirmPasswordInput !== null) {
-//     const confirmPassword = confirmPasswordInput.value;
+  if (confirmPasswordInput !== null) {
+    const confirmPassword = confirmPasswordInput.value;
 
-//     if (password === confirmPassword) {
-//     // Send message to background script to store the new password
-//     chrome.runtime.sendMessage({ cmd: 'storePassword', password }, function (response) {
-//       console.log('Password created');
-//       closeOverlay();
-//     });
-//   }
-// }
+    if (password === confirmPassword) {
+    // Send message to background script to store the new password
+    chrome.runtime.sendMessage({ cmd: 'storePassword', password }, function (response) {
+      console.log('Password created');
+      closeOverlay();
+    });
+  }
+}
 
-  chrome.storage.local.get('password', function(data) {
-    const storedPassword = data.password;
+  else if(confirmPasswordInput === null)
+  {
+    chrome.storage.local.get('password', function(data) {
+      const storedPassword = data.password;
 
-    if (password === storedPassword) {
+      if (password === storedPassword) {
       // Send message to background script to unlock the website
-      chrome.runtime.sendMessage({ cmd: 'unlock' }, function (response) {
-        console.log(response.result);
-        closeOverlay();
-      });
-    } else {
+        chrome.runtime.sendMessage({ cmd: 'unlock' }, function (response) {
+          console.log(response.result);
+          closeOverlay();
+        });
+      } 
+      else {
       alert('Passwords do not match');
-    }
-  });
+      }
+    });
+  }
 });
 
 function closeOverlay() {
