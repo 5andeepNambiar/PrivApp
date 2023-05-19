@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Web Lock Extension",
+  "version": "1.0",
+  "description": "Locks web pages with a password",
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.whatsapp.com/*", "*://*.facebook.com/*", "*://*.instagram.com/*"],
+      "js": ["content_script.js"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "assets/icon.png",
+      "24": "assets/icon.png",
+      "32": "assets/icon.png"
+    },
+    "default_title": "Web-Lock"
+  },
+
+  "host_permissions": [
+    "*://*.whatsapp.com/*",
+    "*://*.facebook.com/*",
+    "*://*.instagram.com/*"
+  ],
+
+  "permissions": [
+    "storage",
+    "tabs"
+  ]
+}
+
+
