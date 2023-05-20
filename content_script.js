@@ -1,11 +1,3 @@
-// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-//   if (request === "getPassword") {
-//     const storedPassword = chrome.storage.local.get("password");
-//     sendResponse(storedPassword);
-//   }
-//   return true;
-// });
-
 function openOverlay() {
   const overlay = document.createElement('div');
   overlay.id = 'myNav';
@@ -33,7 +25,6 @@ function openOverlay() {
   document.body.appendChild(overlay);
 }
 
-// Apply the CSS styles
 const style = document.createElement('style');
 style.innerHTML = `
 
@@ -126,14 +117,12 @@ style.innerHTML = `
 
 document.head.appendChild(style);
 
-// Function to send message to background script to open the overlay
 function sendOpenOverlayMessage() {
   chrome.runtime.sendMessage({ cmd: 'openOverlay' }, function (response) {
     console.log(response.result);
   });
 }
 
-// Check if the current URL contains 'web.whatsapp.com' and send message to open the overlay
 if (window.location.href.includes('web.whatsapp.com') || window.location.href.includes('facebook.com') || window.location.href.includes('instagram.com')) {
   sendOpenOverlayMessage();
 }
@@ -148,8 +137,6 @@ chrome.runtime.sendMessage({ cmd: 'checkPassword' }, function (response) {
   }
 });
 
-
-// Listen for messages from the background script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.cmd === 'openOverlay') {
     openOverlay();
@@ -157,7 +144,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-// Listen for form submission to unlock the website
 document.addEventListener('submit', function (event) {
   event.preventDefault();
 
@@ -202,43 +188,5 @@ function closeOverlay() {
   }
 }
 
-
-// next
-
-// document.addEventListener('submit', function (event) {
-//   event.preventDefault();
-
-//   const password = document.getElementById('password2').value;
-//   const confirmPasswordInput = document.getElementById('confirm-password');
-
-//   if (confirmPasswordInput !== null) {
-//     const confirmPassword = confirmPasswordInput.value;
-
-//     if (password === confirmPassword) {
-//       // Send message to background script to store the new password
-//       chrome.runtime.sendMessage({ cmd: 'storePassword', password }, function (response) {
-//         console.log('Password created');
-//         closeOverlay();
-//       });
-//     } else {
-//       alert('Passwords do not match');
-//     }
-//   }
-
-//   chrome.storage.local.get('password', function(data) {
-//     const storedPassword = data.password;
-
-//     if (password === storedPassword) {
-//       // Send message to background script to unlock the website
-//       chrome.runtime.sendMessage({ cmd: 'unlock' }, function (response) {
-//         console.log(response.result);
-//         closeOverlay();
-//       });
-//     } 
-//     else {
-//       alert('Passwords do not match');
-//     }
-//   });
-// });
 
 
